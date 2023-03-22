@@ -11,6 +11,8 @@ timer = pygame.time.Clock()
 fps = 60 
 font = pygame.font.Font('freesansbold.ttf', 24)
 
+board_values = [[64 for _ in range(4) ] for _ in range(4)]
+
 colors = {0: (204, 192, 179),
           2: (238, 228, 218),
           4: (237, 224, 200),
@@ -31,13 +33,33 @@ colors = {0: (204, 192, 179),
 def board():
     pygame.draw.rect(screen, 'gray',[0,0,600,600],0,10)
 
-def pieces():
-    print('tiles')
+def pieces(board):
+    for i in range(4):
+        for j in range(4):
+            value = board[i][j]
+            if value > 8:
+                value_color = colors['light text']
+            else:
+                value_color = colors['dark text']
+            if value <= 2048:
+                color =colors[value]
+            else:
+                color = colors['other']
+            pygame.draw.rect(screen,color , [j * 145 + 20, i * 145  +20,125,125],0,5)
+            if value > 0 :
+                value_len = len(str(value))
+                font = pygame.font.Font('freesansbold.ttf', 58 - (6*value_len))
+                value_text = font.render(str(value), True, value_color)
+                text_rect = value_text.get_rect(center=(j * 145 + 75,i * 145 + 75))
+                screen.blit(value_text,text_rect)
+              
+
 
 while True :
     timer.tick(fps)
     screen.fill('blue')
     board()
+    pieces(board_values)
 
 
     for event in pygame.event.get():
