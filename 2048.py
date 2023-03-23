@@ -1,6 +1,5 @@
 import pygame 
 import random
-from GeneratePieces.Mypieces import pieces
 
 pygame.init()
 
@@ -34,18 +33,47 @@ board_values = [[0 for _ in range(4) ] for _ in range(4)]
 game_over= False
 spawn_new = True
 start_count = 0
+direction =""
 
 
 def take_turn(direc,board):
-    merged = [[]]
+    merged = [[False for _ in range(4)] for _ in range(4)]
     if direc == 'UP':
-        pass
+        for i in range(4):
+            for j in range(4):
+                shift = 0
+                if i > 0:
+                    for q in range (i):
+                        if board[q][j]==0:
+                            shift +=1 
+                    if shift > 0:
+                        board[i-shift][j] = board[i][j]
+                        board[i][j]=0
+                    if board[i - shift - 1][j] == board[i - shift][j] and not merged[i - shift][j] \
+                            and not merged[i - shift - 1][j]:
+                        board[i-shift-1][j] *=2
+                        board[i-shift][j]=0
+                        merged[i-shift-1][j]=True
     elif direc == 'DOWN':
-        pass
+         pass
     elif direc == 'LEFT':
         pass
     elif direc == 'RIGHT':
-        pass
+        for i in range(4):
+            for j in range(4):
+                shift = 0
+                if j > 0:
+                    for q in range (j):
+                        if board[q][i]==0:
+                            shift +=1 
+                    if shift > 0:
+                        board[j-shift][i] = board[j][i]
+                        board[j][i]=0
+                    if board[j - shift - 1][j] == board[j - shift][i] and not merged[j - shift][i] \
+                            and not merged[j - shift - 1][i]:
+                        board[j-shift-1][i] *=2
+                        board[j-shift][i]=0
+                        merged[j-shift-1][i]=True
     return board
 
 colors = {0: (204, 192, 179),
@@ -68,34 +96,34 @@ colors = {0: (204, 192, 179),
 def board():
     pygame.draw.rect(screen, 'gray',[0,0,600,600],0,10)
 
-# def pieces(board):
-#     for i in range(4):
-#         for j in range(4):
-#             value = board[i][j]
-#             if value > 8:
-#                 value_color = colors['light text']
-#             else:
-#                 value_color = colors['dark text']
-#             if value <= 2048:
-#                 color =colors[value]
-#             else:
-#                 color = colors['other']
-#             pygame.draw.rect(screen,color , [j * 145 + 20, i * 145  +20,125,125],0,5)
-#             if value > 0 :
-#                 value_len = len(str(value))
-#                 font = pygame.font.Font('freesansbold.ttf', 58 - (6*value_len))
-#                 value_text = font.render(str(value), True, value_color)
-#                 text_rect = value_text.get_rect(center=(j * 145 + 75,i * 145 + 75))
-#                 screen.blit(value_text,text_rect)
+def pieces(board):
+    for i in range(4):
+        for j in range(4):
+            value = board[i][j]
+            if value > 8:
+                value_color = colors['light text']
+            else:
+                value_color = colors['dark text']
+            if value <= 2048:
+                color =colors[value]
+            else:
+                color = colors['other']
+            pygame.draw.rect(screen,color , [j * 145 + 20, i * 145  +20,125,125],0,5)
+            if value > 0 :
+                value_len = len(str(value))
+                font = pygame.font.Font('freesansbold.ttf', 58 - (6*value_len))
+                value_text = font.render(str(value), True, value_color)
+                text_rect = value_text.get_rect(center=(j * 145 + 75,i * 145 + 75))
+                screen.blit(value_text,text_rect)
               
 
+run = True
 
-while True :
+while run:
     timer.tick(fps)
     screen.fill('blue')
     board()
     pieces(board_values)
-    direction = ''
     if spawn_new or start_count < 2:
         board_values , game_over = new_piece(board_values)
         spawn_new = False
@@ -108,11 +136,13 @@ while True :
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            break
+            run = False
         if event.type == pygame.KEYUP:
+            print(pygame.KEYUP)
             if event.key == pygame.K_UP:
                 direction = "UP"
             elif event.key == pygame.K_DOWN:
+                print('do you work')
                 direction = "DOWN" 
             elif event.key == pygame.K_LEFT:
                 direction = "LEFT" 
