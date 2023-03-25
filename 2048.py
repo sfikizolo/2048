@@ -45,7 +45,9 @@ def take_turn(direc,board):
                 if i > 0:
                     for q in range (i):
                         if board[q][j]==0:
-                            shift +=1 
+                            shift +=1
+                            
+      
                     if shift > 0:
                         board[i-shift][j] = board[i][j]
                         board[i][j]=0
@@ -55,25 +57,32 @@ def take_turn(direc,board):
                         board[i-shift][j]=0
                         merged[i-shift-1][j]=True
     elif direc == 'DOWN':
-         pass
+         for i in range(4):
+            for j in range(4):
+                shift = 0
+                if i > 0:
+                    for q in range (i):
+                        if board[q][j]==0:
+                            shift +=1
+                        
     elif direc == 'LEFT':
-        pass
-    elif direc == 'RIGHT':
         for i in range(4):
             for j in range(4):
                 shift = 0
-                if j > 0:
-                    for q in range (j):
-                        if board[q][i]==0:
-                            shift +=1 
-                    if shift > 0:
-                        board[j-shift][i] = board[j][i]
-                        board[j][i]=0
-                    if board[j - shift - 1][j] == board[j - shift][i] and not merged[j - shift][i] \
-                            and not merged[j - shift - 1][i]:
-                        board[j-shift-1][i] *=2
-                        board[j-shift][i]=0
-                        merged[j-shift-1][i]=True
+                if i > 0:
+                    for q in range (i):
+                        if board[q][j]==0:
+                            shift +=1
+                          
+        
+    elif direc == 'RIGHT':
+      for i in range(4):
+            for j in range(4):
+                shift = 0
+                if i > 0:
+                    for q in range (i):
+                        if board[q][j]==0:
+                            shift +=1
     return board
 
 colors = {0: (204, 192, 179),
@@ -126,6 +135,7 @@ while run:
     pieces(board_values)
     if spawn_new or start_count < 2:
         board_values , game_over = new_piece(board_values)
+        print(board_values)
         spawn_new = False
         start_count +=1
     if direction != '':
@@ -138,11 +148,9 @@ while run:
         if event.type == pygame.QUIT:
             run = False
         if event.type == pygame.KEYUP:
-            print(pygame.KEYUP)
             if event.key == pygame.K_UP:
                 direction = "UP"
             elif event.key == pygame.K_DOWN:
-                print('do you work')
                 direction = "DOWN" 
             elif event.key == pygame.K_LEFT:
                 direction = "LEFT" 
