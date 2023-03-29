@@ -63,7 +63,7 @@ def take_turn(direc,board):
                 if i > 0:
                     for q in range (i):
                         if board[q][j]==0:
-                            shift +=2
+                            shift +=1
                         
     elif direc == 'LEFT':
         for i in range(4):
