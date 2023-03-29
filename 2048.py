@@ -1,5 +1,6 @@
 import pygame 
 import random
+from GeneratePieces import Mypieces
 
 pygame.init()
 
@@ -36,54 +37,6 @@ start_count = 0
 direction =""
 
 
-def take_turn(direc,board):
-    merged = [[False for _ in range(4)] for _ in range(4)]
-    if direc == 'UP':
-        for i in range(4):
-            for j in range(4):
-                shift = 0
-                if i > 0:
-                    for q in range (i):
-                        if board[q][j]==0:
-                            shift +=1
-                            
-      
-                    if shift > 0:
-                        board[i-shift][j] = board[i][j]
-                        board[i][j]=0
-                    if board[i - shift - 1][j] == board[i - shift][j] and not merged[i - shift][j] \
-                            and not merged[i - shift - 1][j]:
-                        board[i-shift-1][j] *=2
-                        board[i-shift][j]=0
-                        merged[i-shift-1][j]=True
-    elif direc == 'DOWN':
-         for i in range(4):
-            for j in range(4):
-                shift = 0
-                if i > 0:
-                    for q in range (i):
-                        if board[q][j]==0:
-                            shift +=1
-                        
-    elif direc == 'LEFT':
-        for i in range(4):
-            for j in range(4):
-                shift = 0
-                if i > 0:
-                    for q in range (i):
-                        if board[q][j]==0:
-                            shift +=1
-                          
-        
-    elif direc == 'RIGHT':
-      for i in range(4):
-            for j in range(4):
-                shift = 0
-                if i > 0:
-                    for q in range (i):
-                        if board[q][j]==0:
-                            shift +=1
-    return board
 
 colors = {0: (204, 192, 179),
           2: (238, 228, 218),
@@ -135,11 +88,10 @@ while run:
     pieces(board_values)
     if spawn_new or start_count < 2:
         board_values , game_over = new_piece(board_values)
-        print(board_values)
         spawn_new = False
         start_count +=1
     if direction != '':
-        board_values = take_turn(direction,board_values)
+        board_values = Mypieces.take_turn(direction,board_values)
         direction = ''
         spawn_new = True
 
