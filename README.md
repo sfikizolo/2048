@@ -11,7 +11,7 @@ Dependencies
 
 This implementation of the 2048 game requires the following dependencies:
 
-    Python 3.10 or hogher
+    Python 3.10 or higher
     Pygame
 
 To install Pygame, you can run the following command:
