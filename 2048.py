@@ -17,7 +17,7 @@ board_values = [[0 for _ in range(4) ] for _ in range(4)]
 game_over= False
 spawn_new = True
 start_count = 0
-direction =""
+direction =" "
 
 
 colors = {0: (204, 192, 179),2: (238, 228, 218),4: (237, 224, 200),
